@@ -24,7 +24,7 @@ const PhotoGallery: React.FC<IProps> = ({
   >
     {imagesUrl.length > 0
       ? imagesUrl.map((imageUrl: string) => (
-          <ImageLazyLoader photoUrl={imageUrl} />
+          <ImageLazyLoader photoUrl={imageUrl} key={imageUrl} />
         ))
       : null}
   </InfiniteScroll>

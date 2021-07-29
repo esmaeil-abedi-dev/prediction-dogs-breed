@@ -23,6 +23,7 @@ const Boot: React.FC<IProps> = ({ breedsList }: IProps): ReactElement => {
   const [mappedPredictions, setMappedPredictions] = useState<string[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [analyzing, setAnalyzing] = useState<boolean>(false);
+  const [isPredictCompleted, setIsPredicCompleted] = useState<boolean>(false);
   const [selectedBreed, setSelectedBreed] = useState<string>('');
   const [imagesUrl, setImagesUrl] = useState<string[]>([]);
   const imgRef = useRef<HTMLImageElement>(null);
@@ -30,11 +31,13 @@ const Boot: React.FC<IProps> = ({ breedsList }: IProps): ReactElement => {
   const getPredictions = useCallback(async () => {
     if (imgRef.current) {
       setAnalyzing(true);
+      setIsPredicCompleted(false);
       const prediction = new Prediction(imgRef.current);
       await prediction.makePrediction();
       const predictionsArray = prediction.getPredictions();
       setPredictions(predictionsArray);
       setAnalyzing(false);
+      setIsPredicCompleted(true);
     }
   }, [imgRef]);
 
@@ -91,6 +94,7 @@ const Boot: React.FC<IProps> = ({ breedsList }: IProps): ReactElement => {
         onBreedClick={handleSelectedBreed}
         selectedBreed={selectedBreed}
         analyzing={analyzing}
+        isPredictCompleted={isPredictCompleted}
       />
       <Main loading={loading} imagesUrl={imagesUrl} />
     </Layout>

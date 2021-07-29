@@ -10,6 +10,7 @@ import styles from './header.module.css';
 
 interface IProps {
   analyzing: boolean;
+  isPredictCompleted: boolean;
   selectedBreed: string;
   mappedPredictions: string[];
   onBreedClick: (param: string) => void;
@@ -18,6 +19,7 @@ interface IProps {
 
 const Header: React.FC<IProps> = ({
   analyzing,
+  isPredictCompleted,
   mappedPredictions,
   selectedBreed,
   onBreedClick,
@@ -28,6 +30,7 @@ const Header: React.FC<IProps> = ({
     setImageFile(uploadedFile);
     onSelectedImage(uploadedFile);
   };
+
   return (
     <div className={styles.container}>
       <div className={styles.uploaderContainer}>
@@ -55,7 +58,9 @@ const Header: React.FC<IProps> = ({
             ))}
           </div>
         </div>
-      ) : null}
+      ) : (
+        isPredictCompleted && <h1>{findText('noMatch')}</h1>
+      )}
     </div>
   );
 };
