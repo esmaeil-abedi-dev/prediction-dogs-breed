@@ -29,7 +29,9 @@ If you want to see the coverage of the test follow this instruction:
 
 1. open package.json
 2. in the script part, change test script to bellew script
+
    "test": "jest --coverage"
+
 3. run "npm test" again
 
 ### `npm run build`
