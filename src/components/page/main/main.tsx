@@ -1,4 +1,6 @@
 import React, { ReactElement, useState } from 'react';
+// Constants
+import { config } from '../../../constants/photo-gallery';
 // Hardcode text
 import findText from '../../../replace-hardcode-text';
 // Component
@@ -13,12 +15,14 @@ const Main: React.FC<IProps> = ({
   loading,
   imagesUrl,
 }: IProps): ReactElement => {
-  const [images, setImages] = useState<string[]>(imagesUrl.slice(0, 20));
+  const [images, setImages] = useState<string[]>(
+    imagesUrl.slice(0, config.PageSize),
+  );
   const [currentPage, setCurrentPage] = useState<number>(1);
 
   const handleNextPage = () => {
     const nextPageNumber = currentPage + 1;
-    setImages(imagesUrl.slice(0, nextPageNumber * 20));
+    setImages(imagesUrl.slice(0, nextPageNumber * config.PageSize));
     setCurrentPage(nextPageNumber);
   };
 
