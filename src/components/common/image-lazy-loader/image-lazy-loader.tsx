@@ -1,7 +1,7 @@
 /* eslint-disable react/prefer-stateless-function */
 import React from 'react';
 // Styles
-import { StyledContainer, StyledImage } from './image-lazy-loader.style';
+import styles from './image-lazy-loader.module.css';
 
 interface IProps {
   photoUrl: string;
@@ -48,9 +48,9 @@ export default class ImageLazyLoader extends React.Component<IProps> {
 
   render() {
     return (
-      <StyledContainer>
-        <StyledImage ref={this.imageElement} alt='images' />
-      </StyledContainer>
+      <div className={styles.container}>
+        <img ref={this.imageElement} alt='images' />
+      </div>
     );
   }
 }

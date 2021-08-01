@@ -1,51 +1,34 @@
 import React, { ReactElement, useCallback, useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 // Components
 import Boot from './boot';
-// Helper
-import { queryBuilder } from './helper/query-builder';
-// i18n
-import t from './i18n';
-// Redux
-import { SEARCH_PHOTOS } from './redux/actions/action-types';
-import { IApplicationState } from './redux/constants/state';
-import { Photo } from './redux/constants/types';
+import findText from './replace-hardcode-text';
 // Services
-import photoServiceProvider from './services/photo';
-import { SingleResultObject } from './services/types';
+import breedServiceProvider from './services/breed';
 
 const App: React.FC = (): ReactElement => {
-  const { searchQuery } = useSelector(
-    (state: IApplicationState) => state.photos,
-  );
+  const [breedsList, setBreedsList] = useState<string[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
-  const dispatch = useDispatch();
-  const getPhotosService = useCallback(async () => {
+
+  const fetchBreedsList = useCallback(async () => {
     try {
       setLoading(true);
-      const { data } = await photoServiceProvider.searchPhotos(
-        queryBuilder(searchQuery),
-      );
-      if (data.results) {
-        const res: Photo[] = data.results.map((result: SingleResultObject) => ({
-          id: result.id,
-          urls: { full: result.urls.full, thumb: result.urls.thumb },
-          user: { id: result.user.id, name: result.user.first_name },
-          likes: result.likes,
-        }));
-        dispatch({ type: SEARCH_PHOTOS, payload: res });
-        setLoading(false);
-      }
+      const response = await breedServiceProvider.getAllBreedTypes();
+      setBreedsList(Object.keys(response.data.message));
+      setLoading(false);
     } catch (error) {
       setLoading(false);
     }
-  }, [dispatch, searchQuery]);
+  }, []);
 
   useEffect(() => {
-    getPhotosService();
-  }, [getPhotosService]);
+    fetchBreedsList();
+  }, [fetchBreedsList]);
 
-  return loading ? <h1>{t('gettingInformation')}</h1> : <Boot />;
+  return loading ? (
+    <h1>{findText('getInformation')}</h1>
+  ) : (
+    <Boot breedsList={breedsList} />
+  );
 };
 
 export default App;
