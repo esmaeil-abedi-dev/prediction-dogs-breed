@@ -1,3 +1,3 @@
 export enum config {
-  PageSize = 20,
+  PerPage = 20,
 }
