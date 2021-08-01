@@ -1,6 +1,6 @@
 import React, { ReactNode, useEffect, useRef, useState } from 'react';
 // Style
-import styles from './infinit-scroll.module.css';
+import { StyledContainer } from './infinit-scroll.style';
 
 interface IProps {
   onBottomHit: () => void;
@@ -44,11 +44,7 @@ const InfiniteScroll: React.FC<IProps> = ({
     return () => document.removeEventListener('scroll', onScroll);
   }, [onBottomHit, isLoading, hasMoreData]);
 
-  return (
-    <div className={styles.container} ref={contentRef}>
-      {children}
-    </div>
-  );
+  return <StyledContainer ref={contentRef}>{children}</StyledContainer>;
 };
 
 export default InfiniteScroll;

@@ -1,9 +1,10 @@
 // Utilities
 import axios, { AxiosInstance } from 'axios';
 // Constants
-import { baseAppURL } from './config';
+import { baseAppURL, defaultAccessKey } from './config';
 
 interface Config {
+  accessKey?: string;
   suffix?: string;
   baseURL?: string;
 }
@@ -21,12 +22,19 @@ class HttpServiceProvider {
    * @constructor
    * @param {string} suffix - suffix for each instance
    * @param {string} baseURL - base url api for calling a service
+   * @param {string} AccessKey - access key for calling a service
    */
-  constructor({ suffix = '', baseURL = baseAppURL }: Config) {
+  constructor({
+    suffix = '',
+    baseURL = baseAppURL,
+    accessKey = defaultAccessKey,
+  }: Config) {
     this.httpService = axios.create({
       baseURL: `${baseURL}/${suffix}`,
       timeout: 3000,
     });
+
+    this.httpService.defaults.headers.common.Authorization = `Client-ID ${accessKey}`;
   }
 }
 export default HttpServiceProvider;

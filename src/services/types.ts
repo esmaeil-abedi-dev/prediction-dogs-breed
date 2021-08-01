@@ -1,14 +1,24 @@
-export interface BreedsImagesApiResponse {
-  message: string[];
-  status: string;
+import { Urls } from '../redux/constants/types';
+
+export interface SingleResultObject {
+  id: string;
+  likes: number;
+  location: { title: string; name: string; country: string };
+  user: { id: string; first_name: string };
+  urls: Urls;
 }
 
-export interface RandomImageApiResponse {
-  message: string;
-  status: string;
+export interface SearchPhotosApiResponse {
+  total: number;
+  total_pages: number;
+  results: SingleResultObject[];
 }
 
-export interface BreedsListApiResponse {
-  message: { [key: string]: string[] };
-  status: string;
+export interface PhotoApiResponse {
+  id: string;
+  downloads: number;
+  likes: number;
+  location: { title: string; name: string; country: string };
+  user: { id: string; first_name: string };
+  urls: Urls;
 }

@@ -1,68 +1,38 @@
-import React, { ReactElement, useState } from 'react';
-// Hardcode Text
-import findText from '../../../replace-hardcode-text';
-// Component
-import FileUploader from '../../common/file-uploader';
-import ImagePreviewer from '../../common/image-previewer';
-import PredictionItem from '../../common/prediction-item/prediction-item';
+import React, { ReactElement } from 'react';
+// Assets
+import LanguageIcon from '../../../assets/icons/language.png';
+// Components
+import SearchInput from '../../common/search-input';
 // Styles
-import styles from './header.module.css';
+import {
+  StyledDivContainer,
+  StyledHeader,
+  StyledImage,
+  StyledImageContainer,
+} from './header.style';
 
 interface IProps {
-  analyzing: boolean;
-  isPredictCompleted: boolean;
-  selectedBreed: string;
-  mappedPredictions: string[];
-  onBreedClick: (param: string) => void;
-  onSelectedImage: (selectedImage: File) => void;
+  title: string;
+  onChangeLanguageClick: () => void;
 }
 
 const Header: React.FC<IProps> = ({
-  analyzing,
-  isPredictCompleted,
-  mappedPredictions,
-  selectedBreed,
-  onBreedClick,
-  onSelectedImage,
-}: IProps): ReactElement => {
-  const [imageFile, setImageFile] = useState<File>();
-  const handleFileUpload = (uploadedFile: File) => {
-    setImageFile(uploadedFile);
-    onSelectedImage(uploadedFile);
-  };
-
-  return (
-    <div className={styles.container}>
-      <div className={styles.uploaderContainer}>
-        <FileUploader onFileUpload={handleFileUpload} />
-        {imageFile && (
-          <div className={styles.imageThumb}>
-            <ImagePreviewer imageFile={imageFile} />
-          </div>
-        )}
-      </div>
-      {analyzing && <h1>{findText('analyzing')}</h1>}
-      {mappedPredictions.length > 0 ? (
-        <div className={styles.predictionsContainer}>
-          <div className={styles.predictionsContainerTitle}>
-            <span>{findText('selectPredictions')}</span>
-          </div>
-          <div className={styles.predictionsContainerContnet}>
-            {mappedPredictions.map((mappedPrediction: string) => (
-              <PredictionItem
-                key={mappedPrediction}
-                content={mappedPrediction}
-                onClick={onBreedClick}
-                isPredictionSelected={selectedBreed === mappedPrediction}
-              />
-            ))}
-          </div>
-        </div>
-      ) : (
-        isPredictCompleted && <h1>{findText('noMatch')}</h1>
-      )}
-    </div>
-  );
-};
+  title,
+  onChangeLanguageClick,
+}: IProps): ReactElement => (
+  <StyledHeader>
+    <StyledDivContainer>
+      <StyledImageContainer>
+        <StyledImage
+          src={LanguageIcon}
+          alt='change language'
+          onClick={onChangeLanguageClick}
+        />
+      </StyledImageContainer>
+      <SearchInput />
+    </StyledDivContainer>
+    <h1>{title}</h1>
+  </StyledHeader>
+);
 
 export default Header;
